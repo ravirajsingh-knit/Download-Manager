@@ -122,7 +122,20 @@ def download_file(url,location):
     except Exception as ex:
         print(ex)
         return False
-    
     return True
 
+def youtube_Download_File(url,location,name,length):
+    try:
+        print(length,name)    
+        if length==-1 or (not checkForSupport(url)):
+            print("Going for one thread Download")
+            simple_download(url,name,location)
+        else:
+            print("Going for multithread download")
+            indexList=split_poss(length)
+            multithreadDownload(url,name,location,indexList)
+    except Exception as ex:
+        print(ex)
+        return False
+    return True
 
