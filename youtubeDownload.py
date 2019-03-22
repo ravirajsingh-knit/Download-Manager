@@ -1,14 +1,13 @@
 import pafy
 import download
 
-def downloadLink(url):
+def downloadLink(url,id=-1):
     video = pafy.new(url)
     streams=video.streams
     name=video.title
-    print("Available Streams:")
-    for stream in streams:
-        print(stream.resolution,stream.extension, stream.get_filesize())
-    id=int(input("Enter Index(Enter -1 for best)"))
+    # print("Available Streams:")
+    # for stream in streams:
+    #     print(stream.resolution,stream.extension, stream.get_filesize())
     length=-1
     if id ==-1:
         best=video.getbest()
@@ -39,22 +38,9 @@ def wholePlaylist(URL,location):
         download.youtube_Download_File(URL,location,name+"."+extension,length)
 
 
-
-
-def main():
-    URL=input("URL")
-    location=input("Location")
-    if playList(URL):
-        print("This video is part of PlayList. Do you want to download whole play List(YES/NO):", end=" ")
-        ans=input()
-        if ans=='YES':
-            wholePlaylist(URL,location)
-        else:
-            URL,name,length=downloadLink(URL)
-            download.youtube_Download_File(URL,location,name,length)
-
-
-if __name__ == "__main__":
-    main()
-
-
+def main(URL,location,playListSupport):
+    if  playList(URL) and playListSupport=="True":
+        wholePlaylist(URL,location)
+    else:
+        URL,name,length=downloadLink(URL)
+        download.youtube_Download_File(URL,location,name,length)

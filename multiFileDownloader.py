@@ -1,16 +1,20 @@
-import main
+import download
 import queue
 import threading
+import youtubeDownload
 def downloader(url,location,i):
     print("Starting Download File ",str(i))
-    if main.main(url,location):
+    if download.main(url,location):
         print("File ",str(i),"Downloaded")
     else:
         print("Not Able to download Fle")
 
-def multiFileDownload():
-    localName=input("File Name ")
-    directory=input("Directory ")
+def checkUTLink(url):
+    if "youtube" in list(url.split(".")):
+        return True
+    return False
+
+def multiFileDownload(localName,directory,playListsupport):
     i=1
     url=""
     try:
@@ -19,13 +23,14 @@ def multiFileDownload():
             while url:
                 print(url)
                 url=''.join(url.split())
-                downloader(url,directory,i)
+                if checkUTLink(url):
+                    youtubeDownload.main(url,directory,playListsupport)   
+                else:
+                    downloader(url,directory,i)
                 i+=1
                 url=r.readline()
         
     except Exception as ex:
         print(ex)
 
-if __name__=="__main__":
-    multiFileDownload()
     

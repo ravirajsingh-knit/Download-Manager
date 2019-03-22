@@ -4,7 +4,15 @@ import mimetypes
 import os
 import threading
 
+
 def split_poss(length):
+    """
+        Give list of point from where we can split stream into muliple channel.
+        Input:
+            length: Length(Size) of file .
+        Output:
+            indexList: List of points from where you can split the stream into multiple channel 
+    """
     indexList=[]
     if length/8>4096:
         print("Required Split")
@@ -18,6 +26,13 @@ def split_poss(length):
     return indexList
 
 def checkForSupport(url):
+    """
+        Check for mode allowed for multi-channel file download
+        Input:
+            url: URL of file to be downloaded.
+        Output:
+            True/False
+    """
     headers = {"Range": "bytes=0-0"}
     response=requests.head(url,headers=headers,allow_redirects=True)
     print(response.status_code)
@@ -27,6 +42,15 @@ def checkForSupport(url):
         return False
     
 def data_info(url):
+    """
+        Give information about the name and length of File.
+        Input:
+            url: URL of file to be downloaded.
+
+        Output:
+            length: The Length(Size) of file.
+            name: Name of File.
+    """
     try:
         response= requests.head(url,allow_redirects=True)
         print(response.status_code)
@@ -139,3 +163,12 @@ def youtube_Download_File(url,location,name,length):
         return False
     return True
 
+
+
+def main(url,location):
+    if download_file(url,location):
+        print("File is downloaded as")
+        return True
+    else:
+        print("Some problem occurs")
+        return False

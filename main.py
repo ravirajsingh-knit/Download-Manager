@@ -1,20 +1,22 @@
+from shutil import copyfile
 import download
-#from Download_Manager.download import download_file
-def main(url,location):
-    if download.download_file(url,location):
-        print("File is downloaded as")
-        return True
-    else:
-        print("Some problem occurs")
-        return False
-
-def withOutGui():
-    url=input("URL")
-    location=input("Location")
-    main(url,location)
-
-
+import multiFileDownloader
+import youtubeDownload
+import json
+import os
+def main():
+    try:
+        if not os.path.exists("conf.json"):
+            copyfile(".conf","conf.json")
+        conf=None
+        with open('conf.json') as f:
+            conf = json.load(f)
+        multiFileDownloader.multiFileDownload(conf["inputFileLoc"],conf["outputFolder"],conf["playListsupport"])
+    except Exception as exp:
+        print(getattr(exp, 'message', str(exp)))
 
 if __name__=="__main__":
-    withOutGui()
-    
+    main()
+
+
+
